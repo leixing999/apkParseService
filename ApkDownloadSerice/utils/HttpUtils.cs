@@ -57,6 +57,7 @@ namespace ApkDownloadSerice.utils
 
         public static bool HttpDownload(string url,string filename)
         {
+            System.GC.Collect();
             try
             {
               
@@ -68,12 +69,12 @@ namespace ApkDownloadSerice.utils
                 }
                 // 设置参数
                 HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+               
                 //发送请求并获取相应回应数据
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse;
                 //直到request.GetResponse()程序才开始向目标网页发送Post请求
                 Stream responseStream = response.GetResponseStream();
-
-
+                request.KeepAlive = false;
                 long length = response.ContentLength;
                 if (length > MAX_DOWNSIZE)
                 {
